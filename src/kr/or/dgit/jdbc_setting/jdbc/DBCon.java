@@ -7,10 +7,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import com.mysql.jdbc.Driver;
-
 public class DBCon {
-	private static final DBcon instance = new DBCon();
+	private static final DBCon instance = new DBCon();
 	private Connection connection;
 	
 	private DBCon(){
@@ -27,7 +25,11 @@ public class DBCon {
 	private Properties getProperties(String propertiesPath) {
 		Properties properties = new Properties();
 		InputStream is = ClassLoader.getSystemResourceAsStream(propertiesPath);
-		properties.load(is);
+		try {
+			properties.load(is);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return properties;
 	}
 
@@ -37,7 +39,7 @@ public class DBCon {
 	public void setConnection(Connection connection) {
 		this.connection = connection;
 	}
-	public static DBcon getInstance() {
+	public static DBCon getInstance() {
 		return instance;
 	}
 }
