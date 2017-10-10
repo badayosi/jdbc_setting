@@ -1,8 +1,13 @@
 package kr.or.dgit.jdbc_setting.jdbc;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
+
+import com.mysql.jdbc.Driver;
 
 public class DBCon {
 	private static final DBcon instance = new DBCon();
@@ -10,9 +15,14 @@ public class DBCon {
 	
 	private DBCon(){
 		Properties properties = getProperties("conf.properties");
-		System.out.println(properties.getProperty("user"));
+		try{
+			connection = DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("user"), properties.getProperty("pwd"));
+		} catch (SQLException e){
+			System.err.println("%s - %s\n");
+		}
+		/*System.out.println(properties.getProperty("user"));
 		System.out.println(properties.getProperty("pwd"));
-		System.out.println(properties.getProperty("url"));
+		System.out.println(properties.getProperty("url"));*/
 	}
 	private Properties getProperties(String propertiesPath) {
 		Properties properties = new Properties();
